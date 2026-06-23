@@ -12,18 +12,22 @@ jobs:
       ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - uses: actions/setup-node@v4
-        with:
-         node-version: '22'
 
       - name: 查看目录结构
         run: ls -la
 
-      - name: 进入 duotai 目录安装依赖
+      - name: 设置 Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 设置 Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: 安装依赖并同步
         run: |
           cd duotai
           npm install
