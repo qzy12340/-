@@ -16,16 +16,20 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 安装 Node 依赖
+        run: npm install
+
+      - name: 同步 Capacitor
+        run: npx cap sync android
+
       - uses: android-actions/setup-android@v3
-
-      - name: 进入 duotai 目录并构建
-        run: |
-          cd duotai
-          chmod +x android/gradlew
-          cd android
-          ./gradlew assembleDebug
-
+      - run: chmod +x android/gradlew
+      - run: cd android && ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
           name: 多肽-调试版
-          path: duotai/android/app/build/outputs/apk/debug/*.apk
+          path: android/app/build/outputs/apk/debug/*.apk
