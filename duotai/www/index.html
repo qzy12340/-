@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>多肽</title>
+  <meta name="theme-color" content="#F5F0EB">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <style>
+    body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="lib/chart.umd.min.js" defer></script>
+</head>
+<body>
+  <div id="app">
+    <div id="page-container">
+      <div id="page-calendar" class="page active">
+        <header class="app-header">
+          <div class="header-left" id="header-avatar-area">
+            <div class="avatar-circle" id="avatar-circle" onclick="triggerAvatarUpload()" role="button" tabindex="0" aria-label="更换头像">
+              <img id="avatar-img" src="" alt="用户头像" style="display:none;">
+              <span class="avatar-placeholder" id="avatar-placeholder">
+                <svg class="avatar-placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </span>
+              <div class="avatar-edit-badge"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 1l3 3-9 9H2v-3z"/></svg></div>
+            </div>
+            <div class="header-user-info">
+              <span class="header-nickname" id="header-nickname-display" onclick="showEditNicknameModal()">点击设置昵称</span>
+              <span class="header-greeting" id="header-greeting"></span>
+            </div>
+          </div>
+          <div class="header-right">
+            <button class="btn-icon btn-settings-icon" onclick="switchPage(&#39;settings&#39;)" aria-label="设置">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
+          </div>
+        </header>
+        <div class="page-content" id="calendar-content"></div>
+      </div>
+
+      <div id="page-record" class="page">
+        <header class="app-header app-header-with-back">
+          <button class="btn-back" id="btn-back-from-record" aria-label="返回">&#8592;</button>
+          <h2 class="page-title" id="record-date-title">训练记录</h2>
+          <div style="width: 44px;"></div>
+        </header>
+        <div class="page-content" id="record-content"></div>
+      </div>
+
+      <div id="page-templates" class="page">
+        <header class="app-header app-header-with-back">
+          <button class="btn-back" id="btn-back-from-templates" aria-label="返回">&#8592;</button>
+          <h2 class="page-title">训练模板</h2>
+          <div style="width: 44px;"></div>
+        </header>
+        <div class="page-content" id="templates-content"></div>
+      </div>
+
+      <div id="page-progress" class="page">
+        <header class="app-header app-header-with-back">
+          <button class="btn-back" id="btn-back-from-progress" aria-label="返回">&#8592;</button>
+          <h2 class="page-title">进度追踪</h2>
+          <div style="width: 44px;"></div>
+        </header>
+        <div class="page-content" id="progress-content"></div>
+      </div>
+
+      <div id="page-settings" class="page">
+        <header class="app-header app-header-with-back">
+          <button class="btn-back" id="btn-back-from-settings" aria-label="返回">&#8592;</button>
+          <h2 class="page-title">设置</h2>
+          <div style="width: 44px;"></div>
+        </header>
+        <div class="page-content" id="settings-content"></div>
+      </div>
+    </div>
+
+    <nav id="bottom-nav">
+      <button class="nav-item active" data-page="calendar" aria-label="日历">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span class="nav-label">日历</span>
+      </button>
+      <button class="nav-item" data-page="templates" aria-label="模板">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+        <span class="nav-label">模板</span>
+      </button>
+      <button class="nav-item" data-page="progress" aria-label="进度">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span class="nav-label">进度</span>
+      </button>
+      <button class="nav-item" data-page="settings" aria-label="设置">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="nav-label">设置</span>
+      </button>
+    </nav>
+
+    <input type="file" id="avatar-file-input" accept="image/*" style="display:none;">
+    <input type="file" id="restore-file-input" accept=".json" style="display:none;">
+  </div>
+
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal-content" id="modal-content"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/record.js"></script>
+  <script src="js/templates.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/a
