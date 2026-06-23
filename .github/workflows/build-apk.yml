@@ -17,9 +17,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - uses: android-actions/setup-android@v3
-      - run: chmod +x android/gradlew
-      - run: cd android && ./gradlew assembleDebug
+
+      - name: 进入 duotai 目录并构建
+        run: |
+          cd duotai
+          chmod +x android/gradlew
+          cd android
+          ./gradlew assembleDebug
+
       - uses: actions/upload-artifact@v4
         with:
           name: 多肽-调试版
-          path: android/app/build/outputs/apk/debug/*.apk
+          path: duotai/android/app/build/outputs/apk/debug/*.apk
