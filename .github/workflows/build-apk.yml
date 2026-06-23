@@ -20,16 +20,24 @@ jobs:
         with:
           node-version: '20'
 
-      - name: 安装 Node 依赖
-        run: npm install
+      - name: 查看目录结构
+        run: ls -la
 
-      - name: 同步 Capacitor
-        run: npx cap sync android
+      - name: 进入 duotai 目录安装依赖
+        run: |
+          cd duotai
+          npm install
+          npx cap sync android
 
       - uses: android-actions/setup-android@v3
-      - run: chmod +x android/gradlew
-      - run: cd android && ./gradlew assembleDebug
+
+      - name: 构建 APK
+        run: |
+          cd duotai/android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
       - uses: actions/upload-artifact@v4
         with:
           name: 多肽-调试版
-          path: android/app/build/outputs/apk/debug/*.apk
+          path: duotai/android/app/build/outputs/apk/debug/*.apk
