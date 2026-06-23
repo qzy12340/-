@@ -13,9 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: 查看目录结构
-        run: ls -la
-
       - name: 设置 Node.js 22
         uses: actions/setup-node@v4
         with:
@@ -26,6 +23,14 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+
+      - name: 同步前端文件到 www
+        run: |
+          cd duotai
+          cp index.html www/
+          cp -r js/ www/js/
+          cp -r css/ www/css/
+          cp -r lib/ www/lib/ 2>/dev/null || true
 
       - name: 安装依赖并同步
         run: |
